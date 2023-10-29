@@ -1,0 +1,39 @@
+.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #154151;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.logo-container img {
+  height: 40px;
+  width: auto;
+  fill: white;
+}
+
+button {
+  padding: 15px 25px;
+  font-size: 18px;
+  color: #f0f0f0;
+  background-color: #944038;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  border-radius: 5px;
+}
+
+button {
+  border-bottom: 3px solid #381815;
+  position: relative;
+  transition: all 1.1s ease;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+}
+
+button:hover {
+  transform: scale(1.05);
+}

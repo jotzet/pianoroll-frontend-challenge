@@ -1,23 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import TopBar from "./components/TopBar";
+import "./main.css";
+import PianoRollDisplay from "./components/PianoRollDisplay";
+import LoadButton from "./components/LoadButton";
 
 function App() {
+  const [isDisplayVisible, setDisplayVisible] = useState(false);
+
+  const handleButtonClick = () => {
+    setDisplayVisible(!isDisplayVisible);
+    console.log(isDisplayVisible);
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+      <TopBar />
+      <h1> Welcome to PianoRoll frontend coding challenge!</h1>
+
+      {!isDisplayVisible && (
+        <LoadButton
+          buttonText={"Load Piano Rolls!"}
+          onClick={handleButtonClick}
         >
-          Learn React
-        </a>
-      </header>
+          Click Me
+        </LoadButton>
+      )}
+
+      {isDisplayVisible && <PianoRollDisplay />}
     </div>
   );
 }
