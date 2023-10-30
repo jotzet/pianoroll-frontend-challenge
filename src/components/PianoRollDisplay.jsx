@@ -32,13 +32,12 @@ function PianoRollDisplay() {
 
   return (
     <div>
-      <h1>Piano Roll Data</h1>
       {data ? (
-        <ul>
+        <div className="piano-rolls-container">
           {partDataArray.map((partData, index) => (
             <PianoRoll key={index} sequence={partData} />
           ))}
-        </ul>
+        </div>
       ) : (
         <div>Loading data...</div>
       )}

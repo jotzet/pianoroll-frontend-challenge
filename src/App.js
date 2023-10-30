@@ -1,33 +1,16 @@
-import React, { useState } from "react";
-import TopBar from "./components/TopBar";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./main.css";
-import PianoRollDisplay from "./components/PianoRollDisplay";
-import LoadButton from "./components/LoadButton";
+import AllRollsView from "./views/AllRollsView";
+import HomeView from "./views/HomeView";
 
 function App() {
-  const [isDisplayVisible, setDisplayVisible] = useState(false);
-
-  const handleButtonClick = () => {
-    setDisplayVisible(!isDisplayVisible);
-    console.log(isDisplayVisible);
-  };
-
   return (
-    <div className="App">
-      <TopBar />
-      <h1> Welcome to PianoRoll frontend coding challenge!</h1>
-
-      {!isDisplayVisible && (
-        <LoadButton
-          buttonText={"Load Piano Rolls!"}
-          onClick={handleButtonClick}
-        >
-          Click Me
-        </LoadButton>
-      )}
-
-      {isDisplayVisible && <PianoRollDisplay />}
-    </div>
+    <Router>
+      <Routes>
+        <Route path="*" element={<HomeView />} />
+        <Route path="/pianorolls" element={<AllRollsView />} />
+      </Routes>
+    </Router>
   );
 }
 

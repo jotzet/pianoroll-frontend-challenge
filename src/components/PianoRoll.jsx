@@ -159,6 +159,7 @@ class PianoRoll extends Component {
   render() {
     return (
       <div
+        className="piano-roll-card"
         ref={(container) => {
           this.svgContainer = container;
         }}

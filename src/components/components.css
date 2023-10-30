@@ -37,3 +37,19 @@ button {
 button:hover {
   transform: scale(1.05);
 }
+
+.piano-rolls-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.piano-roll-card {
+  padding: 10px;
+  margin: 10px;
+  border: solid black 2px;
+}
+
+.piano-roll-card:hover {
+  cursor: pointer;
+}

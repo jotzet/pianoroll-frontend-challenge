@@ -1,9 +1,9 @@
 import "./components.css";
 
-const LoadButton = ({ buttonText, onClick }) => {
+const LoadButton = ({ buttonText }) => {
   return (
     <div className="buttonContainer">
-      <button onClick={onClick}>{buttonText}</button>
+      <button>{buttonText}</button>
     </div>
   );
 };

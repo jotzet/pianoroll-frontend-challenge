@@ -6,7 +6,9 @@ const TopBar = () => {
   return (
     <nav className="top-bar">
       <div className="logo-container">
-        <img src={whiteSvg} alt="Logo" />
+        <a href="*">
+          <img src={whiteSvg} alt="Logo" />
+        </a>
       </div>
     </nav>
   );
