@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import PianoRoll from "./PianoRoll";
 
 function PianoRollDisplay() {
   const [data, setData] = useState(null);
@@ -20,16 +21,22 @@ function PianoRollDisplay() {
     loadPianoRollData();
   }, []);
 
+  const partDataArray = [];
+
+  for (let it = 0; it < 20; it++) {
+    const start = it * 60;
+    const end = start + 60;
+    const partData = data ? data.slice(start, end) : [];
+    partDataArray.push(partData);
+  }
+
   return (
     <div>
       <h1>Piano Roll Data</h1>
       {data ? (
         <ul>
-          {data.slice(0, 2).map((note, index) => (
-            <li key={index}>
-              Pitch: {note.pitch}, Duration: {note.duration}, start:{note.start}
-              , end:{note.end} velocity:{note.velocity}
-            </li>
+          {partDataArray.map((partData, index) => (
+            <PianoRoll key={index} sequence={partData} />
           ))}
         </ul>
       ) : (
