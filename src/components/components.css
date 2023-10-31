@@ -19,14 +19,11 @@ button {
   background-color: #944038;
   border: none;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s, transform 1.1s ease,
+    border-bottom 1.1s ease;
   border-radius: 5px;
-}
-
-button {
   border-bottom: 3px solid #381815;
   position: relative;
-  transition: all 1.1s ease;
 }
 
 .button-container {
@@ -47,9 +44,21 @@ button:hover {
 .piano-roll-card {
   padding: 10px;
   margin: 10px;
-  border: solid black 2px;
+  border: solid #381815 2px;
+  cursor: pointer;
 }
 
-.piano-roll-card:hover {
-  cursor: pointer;
+.svg-plain,
+.svg-main {
+  width: 80%;
+  border: 2px solid #381815;
+  margin: 10px;
+}
+
+.svg-plain {
+  height: 200px;
+}
+
+.svg-main {
+  height: 25vw;
 }

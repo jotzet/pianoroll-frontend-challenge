@@ -40,10 +40,7 @@ class PianoRoll extends Component {
     );
     svgElement.setAttribute("viewBox", "0 0 1 1");
     svgElement.setAttribute("preserveAspectRatio", "none");
-    svgElement.setAttribute("width", "80%");
-    svgElement.setAttribute("height", "150");
-    svgElement.style.border = "2px solid #381815";
-    svgElement.style.margin = "10px";
+    svgElement.classList.add(props.svgClassName);
     this.svgElement = svgElement;
   }
 
@@ -52,7 +49,11 @@ class PianoRoll extends Component {
   }
 
   componentDidMount() {
-    this.drawPianoRoll(this.props.sequence);
+    try {
+      this.drawPianoRoll(this.props.sequence);
+    } catch (error) {
+      console.error("An error occurred in componentDidMount:", error);
+    }
   }
 
   drawPianoRoll(sequence) {
@@ -87,26 +88,21 @@ class PianoRoll extends Component {
         "rect"
       );
 
-      // Position and width are based on time
       const x = this.timeToX(note.start - this.start);
       const w = this.timeToX(note.end - note.start);
 
       note_rectangle.setAttribute("x", `${x}`);
       note_rectangle.setAttribute("width", `${w}`);
 
-      // Computers draw upside down
       const y = 1 - (note.pitch - pitch_min) / pitch_span;
 
       note_rectangle.setAttribute("y", `${y}`);
       note_rectangle.setAttribute("height", `${this.note_height}`);
 
-      // Colorcoding velocity
       const color = this.noteColormap[note.velocity];
       note_rectangle.setAttribute("fill", color);
-
       note_rectangle.classList.add("note-rectangle");
 
-      // Draw it
       this.svgElement.appendChild(note_rectangle);
     });
 
@@ -159,7 +155,6 @@ class PianoRoll extends Component {
   render() {
     return (
       <div
-        className="piano-roll-card"
         ref={(container) => {
           this.svgContainer = container;
         }}
@@ -167,5 +162,4 @@ class PianoRoll extends Component {
     );
   }
 }
-
 export default PianoRoll;

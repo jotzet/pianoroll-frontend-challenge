@@ -9,7 +9,7 @@ body {
   cursor: default;
   background-color: #f0f0f0;
   color: #1c1c1a;
-  height: 100vh; /* Use viewport height instead of 100% to occupy full screen height */
+  height: 100vh;
   text-align: center;
   overflow: auto;
   display: flex;
