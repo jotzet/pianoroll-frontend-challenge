@@ -1,9 +1,16 @@
 import "./components.css";
+import { deleteDataFromFile } from "../utils/storage";
 
 const LoadButton = ({ buttonText }) => {
   return (
     <div className="buttonContainer">
-      <button>{buttonText}</button>
+      <button
+        onClick={() => {
+          deleteDataFromFile();
+        }}
+      >
+        {buttonText}
+      </button>
     </div>
   );
 };

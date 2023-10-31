@@ -1,41 +1,49 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import PianoRoll from "./PianoRoll";
+import {
+  saveDataToFile,
+  get20itemsFromData,
+  isDataInStorage,
+} from "../utils/storage";
 
 function PianoRollDisplay() {
-  const [data, setData] = useState(null);
+  const [pdata, setPdata] = useState(null);
 
   useEffect(() => {
-    async function loadPianoRollData() {
-      try {
-        const response = await fetch("https://pianoroll.ai/random_notes");
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
+    async function loadData() {
+      let partDataArray = [];
+
+      if (isDataInStorage()) {
+        partDataArray = get20itemsFromData();
+      } else {
+        try {
+          const response = await fetch("https://pianoroll.ai/random_notes");
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+          const responseData = await response.json();
+          saveDataToFile(responseData);
+          partDataArray = get20itemsFromData();
+        } catch (error) {
+          console.error("Error loading data:", error);
         }
-        const responseData = await response.json();
-        setData(responseData);
-      } catch (error) {
-        console.error("Error loading data:", error);
       }
+
+      setPdata(partDataArray);
     }
 
-    loadPianoRollData();
+    loadData();
   }, []);
-
-  const partDataArray = [];
-
-  for (let it = 0; it < 20; it++) {
-    const start = it * 60;
-    const end = start + 60;
-    const partData = data ? data.slice(start, end) : [];
-    partDataArray.push(partData);
-  }
 
   return (
     <div>
-      {data ? (
+      {pdata ? (
         <div className="piano-rolls-container">
-          {partDataArray.map((partData, index) => (
-            <PianoRoll key={index} sequence={partData} />
+          {pdata.map((partData, index) => (
+            <Link key={index} to={`/pianorolls/${index}`}>
+              <PianoRoll key={index} sequence={partData} />
+            </Link>
           ))}
         </div>
       ) : (
