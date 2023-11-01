@@ -3,7 +3,7 @@ import { getItemsFromData } from "../utils/storage";
 import { useParams } from "react-router-dom";
 import PianoRoll from "../components/PianoRoll";
 import MainPianoRoll from "../components/MainPianoRoll";
-import "./views.css";
+import "../styles/views.css";
 
 function MainRollView() {
   const { rollId } = useParams();

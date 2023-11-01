@@ -7,7 +7,7 @@ import {
 } from "../utils/storage";
 import TopBar from "../components/TopBar";
 import loader from "../assets/loader.gif";
-import "./views.css";
+import "../styles/views.css";
 
 function AllRollsView() {
   const [pdata, setPdata] = useState(null);

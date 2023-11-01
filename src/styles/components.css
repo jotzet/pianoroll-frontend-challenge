@@ -61,3 +61,50 @@ button:hover {
 .svg-main {
   height: 25vw;
 }
+
+.selection-container {
+  padding: 0;
+  margin: 0;
+  border: 0;
+  position: relative;
+}
+
+.selection {
+  position: absolute;
+  height: 100%;
+  left: var(--rectX, 0);
+  width: var(--rectWidth, 0);
+  background-color: rgba(0, 0, 30, 0.3);
+  display: block;
+  caret-color: transparent;
+}
+
+.close-selection {
+  position: absolute;
+  top: 0;
+  width: 0;
+  height: 0;
+  left: var(--x-sign-left, 0);
+}
+
+.start-coord {
+  position: absolute;
+  left: var(--red-circle-left, 0);
+  top: 100%;
+  transform: translateY(-50%);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: green;
+}
+
+.end-coord {
+  position: absolute;
+  left: var(--green-circle-left, 0);
+  top: 100%;
+  transform: translateY(-50%);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: red;
+}

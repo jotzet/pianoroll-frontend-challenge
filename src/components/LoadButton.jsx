@@ -1,4 +1,4 @@
-import "./components.css";
+import "../styles/components.css";
 import { deleteDataFromFile } from "../utils/storage";
 
 const LoadButton = ({ buttonText }) => {

@@ -32,13 +32,34 @@ class MainPianoRoll extends PianoRoll {
       this.svgContainer.removeEventListener("mouseup", this.handleMouseUp);
     }
   }
-
+  // handleMouseDown = (event) => {
+  //   const x = event.clientX - this.svgContainer.getBoundingClientRect().left;
+  //   if (!this.state.isSelecting) {
+  //     this.setState({
+  //       isSelecting: true,
+  //       selectionStart: x,
+  //     });
+  //   } else {
+  //     this.setState({
+  //       isSelecting: false,
+  //       selectionEnd: x,
+  //     });
+  //   }
+  // };
   handleMouseDown = (event) => {
     const x = event.clientX - this.svgContainer.getBoundingClientRect().left;
     this.setState({
       isSelecting: true,
       selectionStart: x,
       selectionEnd: x,
+    });
+  };
+
+  handleCloseClick = () => {
+    this.setState({
+      isSelecting: false,
+      selectionStart: 0,
+      selectionEnd: 0,
     });
   };
 
@@ -53,7 +74,7 @@ class MainPianoRoll extends PianoRoll {
 
   handleMouseUp = () => {
     if (this.state.isSelecting) {
-      // start should always be less than end
+      // start coords should always be less than end coords
       let newSelectionStart = Math.min(
         this.state.selectionStart,
         this.state.selectionEnd
@@ -62,14 +83,6 @@ class MainPianoRoll extends PianoRoll {
         this.state.selectionStart,
         this.state.selectionEnd
       );
-
-      if (newSelectionStart < 48 || newSelectionStart > 426) {
-        newSelectionStart = 48;
-      }
-
-      if (newSelectionEnd > 426 || newSelectionEnd < 48) {
-        newSelectionEnd = 426;
-      }
 
       this.setState({
         isSelecting: false,
@@ -84,34 +97,57 @@ class MainPianoRoll extends PianoRoll {
     const rectX = Math.min(selectionStart, selectionEnd);
     const rectWidth = Math.abs(selectionEnd - selectionStart);
 
-    const selectionStyle = {
-      position: "absolute",
-      left: `${rectX}px`,
-      width: `${rectWidth}px`,
-      height: "100%",
-      backgroundColor: "rgba(0, 0, 30, 0.3)",
-      display: "block",
-      caretColor: "transparent",
+    const xSignStyle = {
+      "--x-sign-left": `${rectX + rectWidth}px`,
     };
 
-    const parent = {
-      padding: "0",
-      margin: "0",
-      border: "0",
-      position: "relative",
-      backgroundColor: this.backgroundColor,
+    const selectionStyle = {
+      "--rectX": `${rectX}px`,
+      "--rectWidth": `${rectWidth}px`,
+    };
+
+    const redCircleStyle = {
+      "--red-circle-left": `${rectX - 10}px`,
+    };
+
+    const greenCircleStyle = {
+      "--green-circle-left": `${rectX + rectWidth}px`,
     };
 
     return (
+      /*
+      TODO:
+      1. Start coord should appear on the 1st click
+      then the end coord should be draggable as soon as the 2nd click happens
+
+      2. Each secondary roll should have consistent size on every screen
+
+      3. Capture selection data
+      
+      */
       <>
         <div
-          id="T"
-          style={parent}
+          className="selection-container"
           ref={(container) => {
             this.svgContainer = container;
           }}
         >
-          {this.svgElement && <div style={selectionStyle}></div>}
+          {this.svgElement && (
+            <div className="selection" style={selectionStyle}></div>
+          )}
+          {rectWidth > 0 && (
+            <>
+              <div className="start-coord" style={redCircleStyle}></div>
+              <div className="end-coord" style={greenCircleStyle}></div>
+              <div
+                className="close-selection"
+                style={xSignStyle}
+                onClick={this.handleCloseClick}
+              >
+                X
+              </div>
+            </>
+          )}
         </div>
       </>
     );

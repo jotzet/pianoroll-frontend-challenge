@@ -1,8 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import "./main.css";
-import AllRollsView from "./views/AllRollsView";
-import MainRollView from "./views/MainRollView";
-import HomeView from "./views/HomeView";
+import "./styles/main.css";
+import AllRollsView from "./pages/AllRolls";
+import MainRollView from "./pages/MainRoll";
+import HomeView from "./pages/Home";
 
 function App() {
   return (
