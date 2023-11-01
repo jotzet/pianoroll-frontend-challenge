@@ -1,12 +1,13 @@
 import TopBar from "../components/TopBar";
-import { get20itemsFromData } from "../utils/storage";
+import { getItemsFromData } from "../utils/storage";
 import { useParams } from "react-router-dom";
 import PianoRoll from "../components/PianoRoll";
+import MainPianoRoll from "../components/MainPianoRoll";
 import "./views.css";
 
 function MainRollView() {
   const { rollId } = useParams();
-  const partData = get20itemsFromData();
+  const partData = getItemsFromData(20);
 
   return (
     <>
@@ -14,7 +15,7 @@ function MainRollView() {
       <div className="two-columns-container">
         <div className="main-roll">
           This is a piano roll number {rollId}
-          <PianoRoll sequence={partData[rollId]} svgClassName="svg-main" />
+          <MainPianoRoll sequence={partData[rollId]} svgClassName="svg-main" />
         </div>
 
         <div className="scrollable-rolls">

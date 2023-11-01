@@ -1,13 +1,14 @@
 import LoadButton from "../components/LoadButton";
 import TopBar from "../components/TopBar";
+import "./views.css";
 
 function HomeView() {
   return (
     <>
       <TopBar />
-      <h1> Welcome to PianoRoll frontend coding challenge!</h1>
+      <h1>Welcome to PianoRoll frontend coding challenge!</h1>
       <a href="/pianorolls">
-        <LoadButton buttonText={"LOAD"} />
+        <LoadButton buttonText={"Load Piano Rolls!"} />
       </a>
     </>
   );

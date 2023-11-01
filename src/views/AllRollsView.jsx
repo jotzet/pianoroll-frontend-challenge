@@ -2,11 +2,12 @@ import React, { useEffect, useState } from "react";
 import PianoRoll from "../components/PianoRoll";
 import {
   saveDataToFile,
-  get20itemsFromData,
+  getItemsFromData,
   isDataInStorage,
 } from "../utils/storage";
 import TopBar from "../components/TopBar";
 import loader from "../assets/loader.gif";
+import "./views.css";
 
 function AllRollsView() {
   const [pdata, setPdata] = useState(null);
@@ -16,7 +17,7 @@ function AllRollsView() {
       let partDataArray = [];
 
       if (isDataInStorage()) {
-        partDataArray = get20itemsFromData();
+        partDataArray = getItemsFromData(20);
       } else {
         try {
           const response = await fetch("https://pianoroll.ai/random_notes");
@@ -25,7 +26,7 @@ function AllRollsView() {
           }
           const responseData = await response.json();
           saveDataToFile(responseData);
-          partDataArray = get20itemsFromData();
+          partDataArray = getItemsFromData(20);
         } catch (error) {
           console.error("Error loading data:", error);
         }
