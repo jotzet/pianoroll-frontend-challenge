@@ -155,8 +155,13 @@ class PianoRoll extends Component {
   render() {
     return (
       <div
+        className="svg-parent-div"
         ref={(container) => {
           this.svgContainer = container;
+          if (container) {
+            container.style.width = "100%";
+            container.style.height = "100%";
+          }
         }}
       ></div>
     );

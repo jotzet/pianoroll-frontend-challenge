@@ -6,6 +6,13 @@
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
+.svg-parent-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid;
+}
+
 .logo-container img {
   height: 40px;
   width: auto;
@@ -49,17 +56,18 @@ button:hover {
 
 .svg-plain,
 .svg-main {
-  width: 80%;
   border: 2px solid #381815;
 }
 
 .svg-plain {
   height: 200px;
   margin: 10px;
+  width: 300px;
 }
 
 .svg-main {
   height: 25vw;
+  width: 80%;
 }
 
 .selection-container {
@@ -84,12 +92,12 @@ button:hover {
   top: 0;
   width: 0;
   height: 0;
-  left: var(--x-sign-left, 0);
+  left: var(--close-selection-position, 0);
 }
 
 .start-coord {
   position: absolute;
-  left: var(--red-circle-left, 0);
+  left: var(--start-coord-position, 0);
   top: 100%;
   transform: translateY(-50%);
   width: 10px;
@@ -100,7 +108,7 @@ button:hover {
 
 .end-coord {
   position: absolute;
-  left: var(--green-circle-left, 0);
+  left: var(--end-coord-position, 0);
   top: 100%;
   transform: translateY(-50%);
   width: 10px;

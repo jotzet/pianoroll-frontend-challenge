@@ -6,6 +6,7 @@ class MainPianoRoll extends PianoRoll {
     super(props);
 
     this.state = {
+      clicksNumber: 0,
       isSelecting: false, // is user currently using the selection tool?
       selectionStart: 0, // start of selection coordinates
       selectionEnd: 0, // end of selection coordinates
@@ -32,27 +33,24 @@ class MainPianoRoll extends PianoRoll {
       this.svgContainer.removeEventListener("mouseup", this.handleMouseUp);
     }
   }
-  // handleMouseDown = (event) => {
-  //   const x = event.clientX - this.svgContainer.getBoundingClientRect().left;
-  //   if (!this.state.isSelecting) {
-  //     this.setState({
-  //       isSelecting: true,
-  //       selectionStart: x,
-  //     });
-  //   } else {
-  //     this.setState({
-  //       isSelecting: false,
-  //       selectionEnd: x,
-  //     });
-  //   }
-  // };
+
   handleMouseDown = (event) => {
     const x = event.clientX - this.svgContainer.getBoundingClientRect().left;
-    this.setState({
-      isSelecting: true,
-      selectionStart: x,
-      selectionEnd: x,
-    });
+    console.log(this.state);
+    if (this.state.clicksNumber === 0) {
+      this.setState({
+        clicksNumber: 1,
+        isSelecting: true,
+        selectionStart: x,
+        selectionEnd: x,
+      });
+    } else {
+      this.setState({
+        selectionEnd: x,
+        clicksNumber: 0,
+        isSelecting: false,
+      });
+    }
   };
 
   handleCloseClick = () => {
@@ -85,7 +83,6 @@ class MainPianoRoll extends PianoRoll {
       );
 
       this.setState({
-        isSelecting: false,
         selectionStart: newSelectionStart,
         selectionEnd: newSelectionEnd,
       });
@@ -97,8 +94,8 @@ class MainPianoRoll extends PianoRoll {
     const rectX = Math.min(selectionStart, selectionEnd);
     const rectWidth = Math.abs(selectionEnd - selectionStart);
 
-    const xSignStyle = {
-      "--x-sign-left": `${rectX + rectWidth}px`,
+    const closeSelectionStyle = {
+      "--close-selection-position": `${rectX + rectWidth}px`,
     };
 
     const selectionStyle = {
@@ -106,12 +103,12 @@ class MainPianoRoll extends PianoRoll {
       "--rectWidth": `${rectWidth}px`,
     };
 
-    const redCircleStyle = {
-      "--red-circle-left": `${rectX - 10}px`,
+    const endCoordStyle = {
+      "--end-coord-position": `${rectX - 10}px`,
     };
 
-    const greenCircleStyle = {
-      "--green-circle-left": `${rectX + rectWidth}px`,
+    const startCoordStyle = {
+      "--start-coord-position": `${rectX + rectWidth}px`,
     };
 
     return (
@@ -123,6 +120,8 @@ class MainPianoRoll extends PianoRoll {
       2. Each secondary roll should have consistent size on every screen
 
       3. Capture selection data
+
+      4. Better style for selection
       
       */
       <>
@@ -135,13 +134,14 @@ class MainPianoRoll extends PianoRoll {
           {this.svgElement && (
             <div className="selection" style={selectionStyle}></div>
           )}
+
           {rectWidth > 0 && (
             <>
-              <div className="start-coord" style={redCircleStyle}></div>
-              <div className="end-coord" style={greenCircleStyle}></div>
+              <div className="start-coord" style={startCoordStyle}></div>
+              <div className="end-coord" style={endCoordStyle}></div>
               <div
                 className="close-selection"
-                style={xSignStyle}
+                style={closeSelectionStyle}
                 onClick={this.handleCloseClick}
               >
                 X
