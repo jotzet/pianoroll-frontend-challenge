@@ -22,8 +22,11 @@ class MainPianoRoll extends PianoRoll {
       const roundedEndDimension =
         Math.ceil((this.state.selectionEnd / containerWidth) * 1000) / 1000;
 
-      console.log(`cutty = ${roundedStartDimension},${roundedEndDimension}`);
-      this.cutPianoRollData(roundedStartDimension, roundedEndDimension);
+      const selectedData = this.cutPianoRollData(
+        roundedStartDimension,
+        roundedEndDimension
+      );
+      console.log(selectedData);
     }
   };
 

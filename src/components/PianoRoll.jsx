@@ -1,17 +1,5 @@
 import React, { Component } from "react";
-
-export function generateGradientTable(startColor, endColor, steps) {
-  const gradientTable = [];
-  for (let i = 0; i < steps; i++) {
-    const r = startColor.r + ((endColor.r - startColor.r) * i) / (steps - 1);
-    const g = startColor.g + ((endColor.g - startColor.g) * i) / (steps - 1);
-    const b = startColor.b + ((endColor.b - startColor.b) * i) / (steps - 1);
-    gradientTable.push(
-      `rgb(${Math.round(r)}, ${Math.round(g)}, ${Math.round(b)})`
-    );
-  }
-  return gradientTable;
-}
+import { generateGradientTable, getVelocityFromColor } from "../utils/colors";
 
 class PianoRoll extends Component {
   constructor(props) {
@@ -44,6 +32,35 @@ class PianoRoll extends Component {
     this.svgElement = svgElement;
   }
 
+  // Method to convert the SVG back to the data format
+  convertSVGToData() {
+    const noteRectangles = this.svgElement.querySelectorAll(".note-rectangle");
+    const sequence = [];
+
+    noteRectangles.forEach((noteRectangle) => {
+      const x = parseFloat(noteRectangle.getAttribute("x"));
+      const width = parseFloat(noteRectangle.getAttribute("width"));
+      const y = parseFloat(noteRectangle.getAttribute("y"));
+      const height = parseFloat(noteRectangle.getAttribute("height"));
+
+      const startTime = x * this.end + this.start;
+      const endTime = (x + width) * this.end + this.start;
+
+      const duration = endTime - startTime;
+
+      const note = {
+        duration: duration,
+        end: endTime,
+        pitch: noteRectangle.getAttribute("pitch"),
+        start: startTime,
+        velocity: noteRectangle.getAttribute("velocity"),
+      };
+      sequence.push(note);
+    });
+
+    return sequence;
+  }
+
   cutPianoRollData(x1, x2) {
     // Loop through all the note rectangles and check if they are within the x1 to x2 range.
     const noteRectangles = this.svgElement.querySelectorAll(".note-rectangle");
@@ -57,6 +74,7 @@ class PianoRoll extends Component {
         noteRectangle.remove();
       } else {
         if (noteStart < x1) {
+          noteRectangle.setAttribute("width", noteStart - x1 + width);
           noteRectangle.setAttribute("x", x1);
         }
         if (noteEnd > x2) {
@@ -64,6 +82,8 @@ class PianoRoll extends Component {
         }
       }
     });
+
+    return this.convertSVGToData();
   }
 
   timeToX(time) {
@@ -122,6 +142,8 @@ class PianoRoll extends Component {
       note_rectangle.setAttribute("height", `${this.note_height}`);
 
       const color = this.noteColormap[note.velocity];
+      note_rectangle.setAttribute("velocity", note.velocity);
+      note_rectangle.setAttribute("pitch", note.pitch);
       note_rectangle.setAttribute("fill", color);
       note_rectangle.classList.add("note-rectangle");
 
