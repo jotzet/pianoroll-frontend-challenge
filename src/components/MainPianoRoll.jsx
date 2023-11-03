@@ -27,6 +27,7 @@ class MainPianoRoll extends PianoRoll {
         roundedEndDimension
       );
       console.log(selectedData);
+      console.log(`number of notes: ${selectedData.length}`);
     }
   };
 
@@ -110,7 +111,7 @@ class MainPianoRoll extends PianoRoll {
   };
 
   render() {
-    const { selectionStart, selectionEnd, isSelecting } = this.state;
+    const { selectionStart, selectionEnd } = this.state;
     const rectX = Math.min(selectionStart, selectionEnd);
     const rectWidth = Math.abs(selectionEnd - selectionStart);
 

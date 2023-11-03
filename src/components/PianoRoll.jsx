@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { generateGradientTable, getVelocityFromColor } from "../utils/colors";
+import { generateGradientTable } from "../utils/colors";
 
 class PianoRoll extends Component {
   constructor(props) {
@@ -32,58 +32,54 @@ class PianoRoll extends Component {
     this.svgElement = svgElement;
   }
 
-  // Method to convert the SVG back to the data format
-  convertSVGToData() {
-    const noteRectangles = this.svgElement.querySelectorAll(".note-rectangle");
-    const sequence = [];
-
-    noteRectangles.forEach((noteRectangle) => {
-      const x = parseFloat(noteRectangle.getAttribute("x"));
-      const width = parseFloat(noteRectangle.getAttribute("width"));
-      const y = parseFloat(noteRectangle.getAttribute("y"));
-      const height = parseFloat(noteRectangle.getAttribute("height"));
-
-      const startTime = x * this.end + this.start;
-      const endTime = (x + width) * this.end + this.start;
-
-      const duration = endTime - startTime;
-
-      const note = {
-        duration: duration,
-        end: endTime,
-        pitch: noteRectangle.getAttribute("pitch"),
-        start: startTime,
-        velocity: noteRectangle.getAttribute("velocity"),
-      };
-      sequence.push(note);
-    });
-
-    return sequence;
-  }
-
   cutPianoRollData(x1, x2) {
-    // Loop through all the note rectangles and check if they are within the x1 to x2 range.
     const noteRectangles = this.svgElement.querySelectorAll(".note-rectangle");
+    const filteredSequence = [];
+
     noteRectangles.forEach((noteRectangle) => {
-      const x = parseFloat(noteRectangle.getAttribute("x"));
-      const width = parseFloat(noteRectangle.getAttribute("width"));
-      const noteStart = x;
+      let x = parseFloat(noteRectangle.getAttribute("x"));
+      let width = parseFloat(noteRectangle.getAttribute("width"));
+      let noteStart = x;
       const noteEnd = x + width;
 
       if (noteStart >= x2 || noteEnd <= x1) {
-        noteRectangle.remove();
+        // note is entirely outside the specified range, skip it
       } else {
         if (noteStart < x1) {
-          noteRectangle.setAttribute("width", noteStart - x1 + width);
-          noteRectangle.setAttribute("x", x1);
+          // note starts before the selection, cut it
+          noteStart = x1;
+          width -= x1 - x;
         }
         if (noteEnd > x2) {
-          noteRectangle.setAttribute("width", x2 - noteStart);
+          // note ends after the selection, cut it
+          width = x2 - noteStart;
+        }
+
+        const pitch = noteRectangle.getAttribute("pitch");
+        const velocity = noteRectangle.getAttribute("velocity");
+
+        const existingNote = filteredSequence.find(
+          (note) =>
+            note.pitch === pitch &&
+            note.start === noteStart &&
+            note.end === noteEnd &&
+            note.velocity === velocity
+        );
+        if (!existingNote) {
+          const note = {
+            duration: noteEnd - noteStart,
+            end: noteEnd,
+            pitch: pitch,
+            start: noteStart,
+            velocity: velocity,
+          };
+
+          filteredSequence.push(note);
         }
       }
     });
 
-    return this.convertSVGToData();
+    return filteredSequence;
   }
 
   timeToX(time) {
