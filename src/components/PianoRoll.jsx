@@ -44,6 +44,28 @@ class PianoRoll extends Component {
     this.svgElement = svgElement;
   }
 
+  cutPianoRollData(x1, x2) {
+    // Loop through all the note rectangles and check if they are within the x1 to x2 range.
+    const noteRectangles = this.svgElement.querySelectorAll(".note-rectangle");
+    noteRectangles.forEach((noteRectangle) => {
+      const x = parseFloat(noteRectangle.getAttribute("x"));
+      const width = parseFloat(noteRectangle.getAttribute("width"));
+      const noteStart = x;
+      const noteEnd = x + width;
+
+      if (noteStart >= x2 || noteEnd <= x1) {
+        noteRectangle.remove();
+      } else {
+        if (noteStart < x1) {
+          noteRectangle.setAttribute("x", x1);
+        }
+        if (noteEnd > x2) {
+          noteRectangle.setAttribute("width", x2 - noteStart);
+        }
+      }
+    });
+  }
+
   timeToX(time) {
     return time / this.end;
   }

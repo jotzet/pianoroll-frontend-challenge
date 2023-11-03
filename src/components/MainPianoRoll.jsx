@@ -1,5 +1,6 @@
 import React from "react";
 import PianoRoll from "./PianoRoll";
+import CloseIcon from "@mui/icons-material/Close";
 
 class MainPianoRoll extends PianoRoll {
   constructor(props) {
@@ -12,6 +13,19 @@ class MainPianoRoll extends PianoRoll {
       selectionEnd: 0, // end of selection coordinates
     };
   }
+
+  cutMainRollData = () => {
+    if (this.svgContainer) {
+      const containerWidth = this.svgContainer.getBoundingClientRect().width;
+      const roundedStartDimension =
+        Math.floor((this.state.selectionStart / containerWidth) * 1000) / 1000;
+      const roundedEndDimension =
+        Math.ceil((this.state.selectionEnd / containerWidth) * 1000) / 1000;
+
+      console.log(`cutty = ${roundedStartDimension},${roundedEndDimension}`);
+      this.cutPianoRollData(roundedStartDimension, roundedEndDimension);
+    }
+  };
 
   componentDidMount() {
     try {
@@ -36,7 +50,6 @@ class MainPianoRoll extends PianoRoll {
 
   handleMouseDown = (event) => {
     const x = event.clientX - this.svgContainer.getBoundingClientRect().left;
-    console.log(this.state);
     if (this.state.clicksNumber === 0) {
       this.setState({
         clicksNumber: 1,
@@ -44,11 +57,15 @@ class MainPianoRoll extends PianoRoll {
         selectionStart: x,
         selectionEnd: x,
       });
-    } else {
+    } else if (this.state.clicksNumber === 1) {
       this.setState({
         selectionEnd: x,
-        clicksNumber: 0,
+        clicksNumber: 2,
         isSelecting: false,
+      });
+    } else {
+      this.setState({
+        clicksNumber: 0,
       });
     }
   };
@@ -112,18 +129,6 @@ class MainPianoRoll extends PianoRoll {
     };
 
     return (
-      /*
-      TODO:
-      1. Start coord should appear on the 1st click
-      then the end coord should be draggable as soon as the 2nd click happens
-
-      2. Each secondary roll should have consistent size on every screen
-
-      3. Capture selection data
-
-      4. Better style for selection
-      
-      */
       <>
         <div
           className="selection-container"
@@ -144,11 +149,12 @@ class MainPianoRoll extends PianoRoll {
                 style={closeSelectionStyle}
                 onClick={this.handleCloseClick}
               >
-                X
+                <CloseIcon />
               </div>
             </>
           )}
         </div>
+        {rectWidth > 0 && <button onClick={this.cutMainRollData}>CUT</button>}
       </>
     );
   }

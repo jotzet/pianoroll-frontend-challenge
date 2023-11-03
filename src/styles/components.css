@@ -19,7 +19,7 @@
   fill: white;
 }
 
-button {
+.load-button {
   padding: 15px 25px;
   font-size: 18px;
   color: #f0f0f0;
@@ -67,28 +67,34 @@ button:hover {
 
 .svg-main {
   height: 25vw;
-  width: 80%;
+  width: 100%;
 }
 
 .selection-container {
+  width: auto;
   padding: 0;
   margin: 0;
   border: 0;
   position: relative;
 }
 
-.selection {
+.selection,
+.close-selection,
+.start-coord,
+.end-coord {
+  caret-color: transparent;
   position: absolute;
+}
+
+.selection {
   height: 100%;
   left: var(--rectX, 0);
   width: var(--rectWidth, 0);
-  background-color: rgba(0, 0, 30, 0.3);
+  background-color: rgba(21, 65, 81, 0.4);
   display: block;
-  caret-color: transparent;
 }
 
 .close-selection {
-  position: absolute;
   top: 0;
   width: 0;
   height: 0;
@@ -96,23 +102,21 @@ button:hover {
 }
 
 .start-coord {
-  position: absolute;
   left: var(--start-coord-position, 0);
   top: 100%;
   transform: translateY(-50%);
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background-color: green;
+  background-color: #154151;
 }
 
 .end-coord {
-  position: absolute;
   left: var(--end-coord-position, 0);
   top: 100%;
   transform: translateY(-50%);
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background-color: red;
+  background-color: #14a6c4;
 }

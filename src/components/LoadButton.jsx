@@ -5,6 +5,7 @@ const LoadButton = ({ buttonText }) => {
   return (
     <div className="buttonContainer">
       <button
+        className="load-button"
         onClick={() => {
           deleteDataFromFile();
         }}
