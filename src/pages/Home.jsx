@@ -1,6 +1,6 @@
 import LoadButton from "../components/LoadButton";
 import TopBar from "../components/TopBar";
-import "../styles/views.css";
+import "../styles/mainstyle.css";
 
 function HomeView() {
   return (

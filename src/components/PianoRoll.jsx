@@ -28,7 +28,7 @@ class PianoRoll extends Component {
     );
     svgElement.setAttribute("viewBox", "0 0 1 1");
     svgElement.setAttribute("preserveAspectRatio", "none");
-    svgElement.classList.add(props.svgClassName);
+    svgElement.classList.add("svg-card");
     this.svgElement = svgElement;
   }
 

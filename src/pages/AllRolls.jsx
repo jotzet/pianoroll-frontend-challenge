@@ -7,7 +7,7 @@ import {
 } from "../utils/storage";
 import TopBar from "../components/TopBar";
 import loader from "../assets/loader.gif";
-import "../styles/views.css";
+import "../styles/mainstyle.css";
 
 function AllRollsView() {
   const [pdata, setPdata] = useState(null);
@@ -47,7 +47,7 @@ function AllRollsView() {
             <div key={index} className="piano-roll-card">
               This is a piano roll number {index}
               <a href={`/pianorolls/${index}`}>
-                <PianoRoll sequence={partData} svgClassName={"svg-plain"} />
+                <PianoRoll sequence={partData} />
               </a>
             </div>
           ))}

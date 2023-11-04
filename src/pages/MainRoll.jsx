@@ -3,7 +3,7 @@ import { getItemsFromData } from "../utils/storage";
 import { useParams } from "react-router-dom";
 import PianoRoll from "../components/PianoRoll";
 import MainPianoRoll from "../components/MainPianoRoll";
-import "../styles/views.css";
+import "../styles/mainstyle.css";
 
 function MainRollView() {
   const { rollId } = useParams();
@@ -15,7 +15,7 @@ function MainRollView() {
       <div className="two-columns-container">
         <div className="main-roll">
           This is a piano roll number {rollId}
-          <MainPianoRoll sequence={partData[rollId]} svgClassName="svg-main" />
+          <MainPianoRoll sequence={partData[rollId]} />
         </div>
 
         <div className="scrollable-rolls">
@@ -24,7 +24,7 @@ function MainRollView() {
               <div key={index}>
                 This is a piano roll number {index}
                 <a href={`/pianorolls/${index}`}>
-                  <PianoRoll sequence={partData} svgClassName="svg-plain" />
+                  <PianoRoll sequence={partData} />
                 </a>
               </div>
             ) : null

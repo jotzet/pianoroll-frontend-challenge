@@ -1,4 +1,4 @@
-import "../styles/components.css";
+import "../styles/mainstyle.css";
 import { deleteDataFromFile } from "../utils/storage";
 
 const LoadButton = ({ buttonText, buttonColor, onClick }) => {
@@ -7,7 +7,7 @@ const LoadButton = ({ buttonText, buttonColor, onClick }) => {
   };
 
   return (
-    <div className="buttonContainer">
+    <div className="button-container">
       <button
         className="load-button"
         style={buttonStyle}

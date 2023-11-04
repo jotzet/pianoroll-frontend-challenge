@@ -179,7 +179,7 @@ class MainPianoRoll extends PianoRoll {
             </>
           )}
         </div>
-        {rectWidth > 0 && (
+        {this.state.clicksNumber > 1 && (
           <LoadButton
             onClick={this.cutMainRollData}
             buttonText={"Log the selected data"}

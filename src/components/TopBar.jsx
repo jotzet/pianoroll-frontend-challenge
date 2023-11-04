@@ -1,6 +1,6 @@
 import React from "react";
 import whiteSvg from "../assets/white.svg";
-import "../styles/components.css";
+import "../styles/mainstyle.css";
 
 const TopBar = () => {
   return (
