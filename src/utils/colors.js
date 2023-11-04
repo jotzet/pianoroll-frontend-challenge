@@ -10,17 +10,3 @@ export function generateGradientTable(startColor, endColor, steps) {
   }
   return gradientTable;
 }
-
-// export function getVelocityFromColor(color) {
-//   const rgbRegex = /rgb\((\d+),\s*(\d+),\s*(\d+)\)/;
-//   const match = color.match(rgbRegex);
-//   if (match) {
-//     const r = parseInt(match[1], 10);
-//     const g = parseInt(match[2], 10);
-//     const b = parseInt(match[3], 10);
-//     const velocity = Math.round((r + g + b) / 3);
-//     return velocity;
-//   } else {
-//     return 0;
-//   }
-// }

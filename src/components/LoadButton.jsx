@@ -1,13 +1,22 @@
 import "../styles/components.css";
 import { deleteDataFromFile } from "../utils/storage";
 
-const LoadButton = ({ buttonText }) => {
+const LoadButton = ({ buttonText, buttonColor, onClick }) => {
+  const buttonStyle = {
+    backgroundColor: buttonColor || "#944038",
+  };
+
   return (
     <div className="buttonContainer">
       <button
         className="load-button"
+        style={buttonStyle}
         onClick={() => {
-          deleteDataFromFile();
+          if (onClick) {
+            onClick();
+          } else {
+            deleteDataFromFile();
+          }
         }}
       >
         {buttonText}

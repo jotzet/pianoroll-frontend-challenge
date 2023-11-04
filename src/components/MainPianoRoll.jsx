@@ -1,17 +1,33 @@
 import React from "react";
 import PianoRoll from "./PianoRoll";
-import CloseIcon from "@mui/icons-material/Close";
+import CloseIcon from "../assets/closeicon.png";
+import LoadButton from "./LoadButton";
 
 class MainPianoRoll extends PianoRoll {
   constructor(props) {
     super(props);
 
     this.state = {
-      clicksNumber: 0,
+      clicksNumber: 0, //how many times has user clicked on the roll
       isSelecting: false, // is user currently using the selection tool?
       selectionStart: 0, // start of selection coordinates
       selectionEnd: 0, // end of selection coordinates
+      containerWidth: 0, // variable to store the dimensions of a roll
     };
+    this.handleResize = this.handleResize.bind(this);
+  }
+
+  handleResize() {
+    //the selection should properly adjust in case of an resize
+    if (this.svgContainer) {
+      const newSize = this.svgContainer.getBoundingClientRect().width;
+      const scaleFactor = newSize / this.state.containerWidth;
+      this.setState({
+        selectionStart: this.state.selectionStart * scaleFactor,
+        selectionEnd: this.state.selectionEnd * scaleFactor,
+        containerWidth: newSize,
+      });
+    }
   }
 
   cutMainRollData = () => {
@@ -26,7 +42,7 @@ class MainPianoRoll extends PianoRoll {
         roundedStartDimension,
         roundedEndDimension
       );
-      console.log(selectedData);
+      console.log(`the selected data: ${JSON.stringify(selectedData)}`);
       console.log(`number of notes: ${selectedData.length}`);
     }
   };
@@ -41,6 +57,10 @@ class MainPianoRoll extends PianoRoll {
       this.svgContainer.addEventListener("mousedown", this.handleMouseDown);
       this.svgContainer.addEventListener("mousemove", this.handleMouseMove);
       this.svgContainer.addEventListener("mouseup", this.handleMouseUp);
+      this.setState({
+        containerWidth: this.svgContainer.getBoundingClientRect().width,
+      });
+      window.addEventListener("resize", this.handleResize);
     }
   }
 
@@ -49,6 +69,7 @@ class MainPianoRoll extends PianoRoll {
       this.svgContainer.removeEventListener("mousedown", this.handleMouseDown);
       this.svgContainer.removeEventListener("mousemove", this.handleMouseMove);
       this.svgContainer.removeEventListener("mouseup", this.handleMouseUp);
+      window.removeEventListener("resize", this.handleResize);
     }
   }
 
@@ -115,21 +136,21 @@ class MainPianoRoll extends PianoRoll {
     const rectX = Math.min(selectionStart, selectionEnd);
     const rectWidth = Math.abs(selectionEnd - selectionStart);
 
-    const closeSelectionStyle = {
-      "--close-selection-position": `${rectX + rectWidth}px`,
-    };
-
     const selectionStyle = {
       "--rectX": `${rectX}px`,
       "--rectWidth": `${rectWidth}px`,
     };
 
-    const endCoordStyle = {
-      "--end-coord-position": `${rectX - 10}px`,
+    const closeSelectionStyle = {
+      "--position": `${rectX + rectWidth}px`,
     };
 
     const startCoordStyle = {
-      "--start-coord-position": `${rectX + rectWidth}px`,
+      "--position": `${rectX - 5}px`,
+    };
+
+    const endCoordStyle = {
+      "--position": `${rectX + rectWidth}px`,
     };
 
     return (
@@ -153,12 +174,17 @@ class MainPianoRoll extends PianoRoll {
                 style={closeSelectionStyle}
                 onClick={this.handleCloseClick}
               >
-                <CloseIcon />
+                <img src={CloseIcon} alt="Close" width={"30px"} />
               </div>
             </>
           )}
         </div>
-        {rectWidth > 0 && <button onClick={this.cutMainRollData}>CUT</button>}
+        {rectWidth > 0 && (
+          <LoadButton
+            onClick={this.cutMainRollData}
+            buttonText={"Log the selected data"}
+          />
+        )}
       </>
     );
   }
