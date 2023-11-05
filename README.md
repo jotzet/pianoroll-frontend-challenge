@@ -2,7 +2,10 @@
 
 ## Installation and Usage
 
-After cloning this repository, go to the project directory, open it in a terminal and run:
+The project is deployed on this website:
+[pianorollfrontendchallenge.netlify.app](https://pianorollfrontendchallenge.netlify.app/)
+
+If you prefer to run it locally, clone this repository, go to the project directory, open it in a terminal and run:
 
 ### `npm install`
 
@@ -27,6 +30,8 @@ At any point, you can easily navigate back to the main page by clicking on the a
 
 At the main page, you'll notice a button labeled "_Load the Main Piano Rolls_". Clicking on this button triggers a request to an external API to fetch random piano roll data. This data is then stored in your browser's local storage. It's worth noting that each time you click this button, the previous data in local storage is cleared, and the new data is saved.
 
+Sometimes, very rarely, there is a problem with the API and the website doesn't properly import the data. If that's the case, try to go to the main page and reload the rolls.
+
 ### Viewing All Piano Rolls
 
 After you've clicked the "_Load the Main Piano Rolls_" button, you'll be redirected to a specific link that displays all the piano rolls presented in a grid layout with three columns by default. However, the number of columns adjusts dynamically for smaller screens, ensuring an optimal viewing experience.
@@ -37,7 +42,9 @@ When you click on a specific piano roll in the grid, you'll be directed to a ded
 
 ### Selecting and Logging Data
 
-To interact with the piano roll, you can click on specific points or coordinates within the roll. When you've selected two coordinates, a button will appear, allowing you to log the selected data to the console.
+To interact with the piano roll, you can click on specific points or coordinates within the roll. The first click initiates the starting point. The second click initiates the ending point. **You don't need to keep your mouse clicked - this can lead to unexpected behaviours.**
+
+When you've selected two coordinates, a button will appear, allowing you to log the selected data to the console.
 The logged data is stored in the console as a JSON file, including the corresponding data from the selected points on the piano roll and the number of notes within the selection.
 
 ## Directory Descriptions
