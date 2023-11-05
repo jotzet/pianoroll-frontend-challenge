@@ -1,3 +1,5 @@
+//all the functions below are for manipulating the data in the storage;
+
 export function saveDataToFile(data) {
   localStorage.setItem("pianoRollData", JSON.stringify(data));
 }

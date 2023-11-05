@@ -17,8 +17,8 @@ class MainPianoRoll extends PianoRoll {
     this.handleResize = this.handleResize.bind(this);
   }
 
+  //the selection should properly adjust in case of an resize
   handleResize() {
-    //the selection should properly adjust in case of an resize
     if (this.svgContainer) {
       const newSize = this.svgContainer.getBoundingClientRect().width;
       const scaleFactor = newSize / this.state.containerWidth;
@@ -30,6 +30,11 @@ class MainPianoRoll extends PianoRoll {
     }
   }
 
+  /*
+  this function logs all the selected notes as well as the total number of them;
+  if the note begins before (or ends after) the selection, it is cut;
+  for the details check the cutPianoRollData() function in the PianoRoll component
+  */
   cutMainRollData = () => {
     if (this.svgContainer) {
       const containerWidth = this.svgContainer.getBoundingClientRect().width;
@@ -114,7 +119,7 @@ class MainPianoRoll extends PianoRoll {
 
   handleMouseUp = () => {
     if (this.state.isSelecting) {
-      // start coords should always be less than end coords
+      // start coords should always be before the end coords
       let newSelectionStart = Math.min(
         this.state.selectionStart,
         this.state.selectionEnd

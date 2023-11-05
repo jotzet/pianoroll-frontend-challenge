@@ -20,6 +20,7 @@ h1,
 img {
   margin: 20px;
   font-size: 42px;
+  cursor: pointer;
 }
 .top-bar {
   display: flex;
@@ -27,6 +28,16 @@ img {
   justify-content: space-between;
   background-color: #154151;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+#manual {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 0 25% 0 25%;
+}
+#manual p {
+  margin: 5px;
 }
 .logo-container img {
   height: 40px;
