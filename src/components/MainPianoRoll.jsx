@@ -8,11 +8,14 @@ class MainPianoRoll extends PianoRoll {
     super(props);
 
     this.state = {
-      clicksNumber: 0, //how many times has user clicked on the roll
-      isSelecting: false, // is user currently using the selection tool?
-      selectionStart: 0, // start of selection coordinates
-      selectionEnd: 0, // end of selection coordinates
-      containerWidth: 0, // variable to store the dimensions of a roll
+      clicksNumber: 0,
+      isSelecting: false,
+      selectionStart: 0,
+      selectionEnd: 0,
+      containerWidth: 0,
+      isDraggingStartCoord: false,
+      isDraggingEndCoord: false,
+      isDraggingSelection: false,
     };
     this.handleResize = this.handleResize.bind(this);
   }
@@ -69,17 +72,21 @@ class MainPianoRoll extends PianoRoll {
     }
   }
 
-  componentWillUnmount() {
-    if (this.svgContainer) {
-      this.svgContainer.removeEventListener("mousedown", this.handleMouseDown);
-      this.svgContainer.removeEventListener("mousemove", this.handleMouseMove);
-      this.svgContainer.removeEventListener("mouseup", this.handleMouseUp);
-      window.removeEventListener("resize", this.handleResize);
-    }
-  }
+  handleStartCoordMouseDown = (event) => {
+    this.setState({ isDraggingStartCoord: true });
+  };
+
+  handleEndCoordMouseDown = (event) => {
+    this.setState({ isDraggingEndCoord: true });
+  };
+
+  handleSelectionMouseDown = (event) => {
+    this.setState({ isDraggingSelection: true });
+  };
 
   handleMouseDown = (event) => {
     const x = event.clientX - this.svgContainer.getBoundingClientRect().left;
+
     if (this.state.clicksNumber === 0) {
       this.setState({
         clicksNumber: 1,
@@ -93,10 +100,6 @@ class MainPianoRoll extends PianoRoll {
         clicksNumber: 2,
         isSelecting: false,
       });
-    } else {
-      this.setState({
-        clicksNumber: 0,
-      });
     }
   };
 
@@ -105,10 +108,52 @@ class MainPianoRoll extends PianoRoll {
       isSelecting: false,
       selectionStart: 0,
       selectionEnd: 0,
+      clicksNumber: 0,
+    });
+  };
+
+  handleMouseUpDrag = () => {
+    this.setState({
+      isDraggingStartCoord: false,
+      isDraggingEndCoord: false,
     });
   };
 
   handleMouseMove = (event) => {
+    if (this.state.isDraggingStartCoord) {
+      let x = event.clientX - this.svgContainer.getBoundingClientRect().left;
+      if (x < 0) {
+        x = 0;
+      }
+      this.setState({ selectionStart: x });
+    } else if (this.state.isDraggingEndCoord) {
+      let x = event.clientX - this.svgContainer.getBoundingClientRect().left;
+      if (x > this.svgElement.width.animVal.value) {
+        x = this.svgElement.width.animVal.value;
+      }
+      this.setState({ selectionEnd: x });
+    } else if (this.state.isDraggingSelection) {
+      const x = event.clientX - this.svgContainer.getBoundingClientRect().left;
+      const selectionWidth =
+        this.state.selectionEnd - this.state.selectionStart;
+      let newStart = x - selectionWidth / 2;
+      if (newStart < 0) {
+        newStart = 0;
+      }
+
+      let newEnd = newStart + selectionWidth;
+
+      if (newEnd > this.svgElement.width.animVal.value) {
+        newEnd = this.svgElement.width.animVal.value;
+        newStart = newEnd - selectionWidth;
+      }
+
+      this.setState({
+        selectionStart: Math.min(newStart, newEnd),
+        selectionEnd: Math.max(newStart, newEnd),
+      });
+    }
+
     if (this.state.isSelecting) {
       const x = event.clientX - this.svgContainer.getBoundingClientRect().left;
       this.setState({
@@ -129,21 +174,49 @@ class MainPianoRoll extends PianoRoll {
         this.state.selectionEnd
       );
 
+      if (newSelectionStart < 0) {
+        newSelectionStart = 0;
+      }
+
+      if (newSelectionEnd > this.svgElement.width.animVal.value) {
+        newSelectionEnd = this.svgElement.width.animVal.value;
+      }
+
       this.setState({
         selectionStart: newSelectionStart,
         selectionEnd: newSelectionEnd,
       });
     }
+
+    if (this.state.isDraggingStartCoord) {
+      this.setState({
+        isDraggingStartCoord: false,
+        clicksNumber: 2,
+      });
+    }
+    if (this.state.isDraggingEndCoord) {
+      this.setState({
+        isDraggingEndCoord: false,
+        clicksNumber: 2,
+      });
+    }
+
+    if (this.state.isDraggingSelection) {
+      this.setState({
+        isDraggingSelection: false,
+        clicksNumber: 2,
+      });
+    }
   };
 
   render() {
-    const { selectionStart, selectionEnd } = this.state;
+    const { selectionStart, selectionEnd, isSelecting } = this.state;
     const rectX = Math.min(selectionStart, selectionEnd);
     const rectWidth = Math.abs(selectionEnd - selectionStart);
 
     const selectionStyle = {
       "--rectX": `${rectX}px`,
-      "--rectWidth": `${rectWidth}px`,
+      "--rectWidth": `${rectWidth + 2}px`,
     };
 
     const closeSelectionStyle = {
@@ -167,13 +240,25 @@ class MainPianoRoll extends PianoRoll {
           }}
         >
           {this.svgElement && (
-            <div className="selection" style={selectionStyle}></div>
+            <div
+              onMouseDown={this.handleSelectionMouseDown}
+              className="selection"
+              style={selectionStyle}
+            ></div>
           )}
 
-          {rectWidth > 0 && (
+          {rectWidth > 0 && !isSelecting && (
             <>
-              <div className="start-coord" style={startCoordStyle}></div>
-              <div className="end-coord" style={endCoordStyle}></div>
+              <div
+                onMouseDown={this.handleStartCoordMouseDown}
+                className="start-coord"
+                style={startCoordStyle}
+              ></div>
+              <div
+                onMouseDown={this.handleEndCoordMouseDown}
+                className="end-coord"
+                style={endCoordStyle}
+              ></div>
               <div
                 className="close-selection"
                 style={closeSelectionStyle}

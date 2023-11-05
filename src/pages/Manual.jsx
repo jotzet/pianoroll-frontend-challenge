@@ -50,16 +50,13 @@ function Manual() {
         <p>
           To interact with the piano roll, you can click on specific points or
           coordinates within the roll. The first click initiates the starting
-          point. The second click initiates the ending point.
-          <strong>
-            You don't need to keep your mouse clicked - this can lead to
-            unexpected behaviors
-          </strong>
-          . When you've selected two coordinates, a button will appear, allowing
-          you to log the selected data to the console. The logged data is stored
-          in the console as a JSON file, including the corresponding data from
-          the selected points on the piano roll and the number of notes within
-          the selection.
+          point. The second click initiates the ending point. You can also drag
+          the points or the whole selection. To remove the selection click a red
+          "x" icon. When you've selected two coordinates, a button will appear,
+          allowing you to log the selected data to the console. The logged data
+          is stored in the console as a JSON file, including the corresponding
+          data from the selected points on the piano roll and the number of
+          notes within the selection.
         </p>
       </div>
     </>

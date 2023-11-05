@@ -22,6 +22,8 @@ In case of CORS-related errors, make sure to install the following extensions:
 
 ## How the app works
 
+_To access this manual while using the website, click on the red question mark at the upper right corner in the topbar._
+
 ### Navigation to the Main Page
 
 At any point, you can easily navigate back to the main page by clicking on the app's logo in the top bar.
@@ -42,7 +44,7 @@ When you click on a specific piano roll in the grid, you'll be directed to a ded
 
 ### Selecting and Logging Data
 
-To interact with the piano roll, you can click on specific points or coordinates within the roll. The first click initiates the starting point. The second click initiates the ending point. **You don't need to keep your mouse clicked - this can lead to unexpected behaviours.**
+To interact with the piano roll, you can click on specific points or coordinates within the roll. The first click initiates the starting point. The second click initiates the ending point. You can also drag the points or the whole selection. To remove the selection click a red "x" icon.
 
 When you've selected two coordinates, a button will appear, allowing you to log the selected data to the console.
 The logged data is stored in the console as a JSON file, including the corresponding data from the selected points on the piano roll and the number of notes within the selection.
