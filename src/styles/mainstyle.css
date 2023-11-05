@@ -60,12 +60,23 @@ img {
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
 }
-.piano-rolls-container .piano-roll-card {
+@media (max-width: 1124px) {
+  .piano-rolls-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 768px) {
+  .piano-rolls-container {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+.piano-roll-card {
+  flex: 1;
   padding: 10px;
-  margin: 10px;
+  margin: 20px;
   cursor: pointer;
 }
-.piano-rolls-container .piano-roll-card .svg-card {
+.piano-roll-card .svg-card {
   border: 2px solid #052228;
   height: 200px;
   margin: 10px;
@@ -85,7 +96,7 @@ img {
   width: 100%;
 }
 .two-columns-container .scrollable-rolls {
-  width: 30%;
+  width: 40%;
   overflow-y: scroll;
   max-height: 32vw;
   margin: 30px;
@@ -95,6 +106,25 @@ img {
   height: 200px;
   margin: 10px;
   width: 300px;
+}
+@media (max-width: 850px) {
+  .two-columns-container {
+    font-size: 10px;
+    flex-direction: column;
+    align-items: center;
+  }
+  .two-columns-container .scrollable-rolls {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 70%;
+    overflow-x: scroll;
+    overflow-y: hidden;
+  }
+  .two-columns-container .scrollable-rolls .svg-card {
+    height: 80px;
+    width: 120px;
+  }
 }
 .selection-container {
   width: auto;

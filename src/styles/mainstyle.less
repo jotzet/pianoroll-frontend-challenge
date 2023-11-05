@@ -75,19 +75,32 @@ img {
     grid-template-columns: repeat(3, 1fr);
     gap: 10px;
 
-    .piano-roll-card {
-        padding: 10px;
-        margin: 10px;
-        cursor: pointer;
+    @media (max-width: 1124px) {
+        grid-template-columns: repeat(2, 1fr);
+    }
 
-        .svg-card {
-            border: 2px solid @sea-black;
-            height: 200px;
-            margin: 10px;
-            width: 300px;
-        }
+    @media (max-width: 768px) {
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+}
+
+.piano-roll-card {
+    flex: 1;
+    padding: 10px;
+    margin: 20px;
+    cursor: pointer;
+
+    .svg-card {
+        border: 2px solid @sea-black;
+        height: 200px;
+        margin: 10px;
+        width: 300px;
     }
 }
+
+
+
 
 // columns for MainRoll page
 .two-columns-container {
@@ -106,7 +119,7 @@ img {
     }
 
     .scrollable-rolls {
-        width: 30%;
+        width: 40%;
         overflow-y: scroll;
         max-height: 32vw;
         margin: 30px;
@@ -116,6 +129,29 @@ img {
             height: 200px;
             margin: 10px;
             width: 300px;
+        }
+    }
+
+    @media (max-width: 850px) {
+
+        font-size: 10px;
+        flex-direction: column;
+        align-items: center;
+
+        .scrollable-rolls {
+
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+
+            width: 70%;
+            overflow-x: scroll;
+            overflow-y: hidden;
+
+            .svg-card {
+                height: 80px;
+                width: 120px;
+            }
         }
     }
 }

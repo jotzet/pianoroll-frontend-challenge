@@ -17,7 +17,7 @@ function AllRollsView() {
       let partDataArray = [];
 
       if (isDataInStorage()) {
-        partDataArray = getItemsFromData(20);
+        partDataArray = getItemsFromData(21);
       } else {
         try {
           const response = await fetch("https://pianoroll.ai/random_notes");

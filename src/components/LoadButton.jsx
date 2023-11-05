@@ -1,5 +1,4 @@
 import "../styles/mainstyle.css";
-import { deleteDataFromFile } from "../utils/storage";
 
 const LoadButton = ({ buttonText, buttonColor, onClick }) => {
   const buttonStyle = {
@@ -14,8 +13,6 @@ const LoadButton = ({ buttonText, buttonColor, onClick }) => {
         onClick={() => {
           if (onClick) {
             onClick();
-          } else {
-            deleteDataFromFile();
           }
         }}
       >

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { generateGradientTable } from "../utils/colors";
+import { generateGradientTable } from "../utils/gradient";
 
 class PianoRoll extends Component {
   constructor(props) {
