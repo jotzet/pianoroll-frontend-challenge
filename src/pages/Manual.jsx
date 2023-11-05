@@ -5,9 +5,8 @@ function Manual() {
   return (
     <>
       <TopBar />
+      <h1>How the App Works</h1>
       <div id="manual">
-        <h1>How the App Works</h1>
-
         <h3>Navigation to the Main Page</h3>
         <p>
           At any point, you can easily navigate back to the{" "}
