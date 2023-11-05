@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import whiteSvg from "../assets/white.svg";
 import HowToIcon from "../assets/howto.png";
 import "../styles/mainstyle.css";
