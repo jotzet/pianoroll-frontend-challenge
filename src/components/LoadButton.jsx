@@ -11,9 +11,7 @@ const LoadButton = ({ buttonText, buttonColor, onClick }) => {
         className="load-button"
         style={buttonStyle}
         onClick={() => {
-          if (onClick) {
-            onClick();
-          }
+          if (onClick) onClick();
         }}
       >
         {buttonText}

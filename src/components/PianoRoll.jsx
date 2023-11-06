@@ -42,18 +42,15 @@ class PianoRoll extends Component {
       let noteStart = x;
       const noteEnd = x + width;
 
-      if (noteStart >= x2 || noteEnd <= x1) {
-        // note is entirely outside the specified range, skip it
-      } else {
+      // note is entirely outside the specified range, skip it
+      if (!(noteStart >= x2 || noteEnd <= x1)) {
         if (noteStart < x1) {
           // note starts before the selection, cut it
           noteStart = x1;
-          width -= x1 - x;
+          width = x1 - x;
         }
-        if (noteEnd > x2) {
-          // note ends after the selection, cut it
-          width = x2 - noteStart;
-        }
+        // note ends after the selection, cut it
+        if (noteEnd > x2) width = x2 - noteStart;
 
         const pitch = noteRectangle.getAttribute("pitch");
         const velocity = noteRectangle.getAttribute("velocity");
@@ -181,11 +178,9 @@ class PianoRoll extends Component {
       line.setAttribute("y2", `${y}`);
       let line_width;
 
-      if (it % 12 === 0) {
-        line_width = 0.003;
-      } else {
-        line_width = 0.001;
-      }
+      if (it % 12 === 0) line_width = 0.003;
+      else line_width = 0.001;
+
       line.setAttribute("stroke-width", `${line_width}`);
       line.setAttribute("stroke", "black");
       this.svgElement.appendChild(line);

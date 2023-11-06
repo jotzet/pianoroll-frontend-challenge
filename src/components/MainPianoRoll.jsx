@@ -6,7 +6,6 @@ import LoadButton from "./LoadButton";
 class MainPianoRoll extends PianoRoll {
   constructor(props) {
     super(props);
-
     this.state = {
       clicksNumber: 0,
       isSelecting: false,
@@ -21,47 +20,45 @@ class MainPianoRoll extends PianoRoll {
   }
 
   setSelectionStart(x) {
-    if (x < 0) {
+    if (x < 0)
       this.setState({
         selectionStart: 0,
       });
-    } else if (x >= this.svgElement.width.animVal.value) {
+    else if (x >= this.svgElement.width.animVal.value)
       this.setState({
         selectionStart: this.svgElement.width.animVal.value - 1,
       });
-    } else {
+    else
       this.setState({
         selectionStart: x,
       });
-    }
   }
 
   setSelectionEnd(x) {
-    if (x < 0) {
+    if (x < 0)
       this.setState({
-        selectionEnd: 1,
+        selectionEnd: 0,
       });
-    } else if (x >= this.svgElement.width.animVal.value) {
+    else if (x >= this.svgElement.width.animVal.value)
       this.setState({
         selectionEnd: this.svgElement.width.animVal.value,
       });
-    } else {
+    else
       this.setState({
         selectionEnd: x,
       });
-    }
   }
 
+  // selection start should always be before the selection end
   verifyCoords() {
-    if (this.state.selectionStart > this.state.selectionEnd) {
+    if (this.state.selectionStart > this.state.selectionEnd)
       this.setState({
         selectionStart: this.state.selectionEnd,
         selectionEnd: this.state.selectionStart,
       });
-    }
   }
 
-  //the selection should properly adjust in case of an resize
+  // the selection should properly adjust in case of an resize
   handleResize() {
     if (this.svgContainer) {
       const newSize = this.svgContainer.getBoundingClientRect().width;
@@ -130,11 +127,11 @@ class MainPianoRoll extends PianoRoll {
     const x = event.clientX - this.svgContainer.getBoundingClientRect().left;
 
     if (this.state.clicksNumber === 0) {
+      this.setSelectionStart(x);
+      this.setSelectionEnd(x);
       this.setState({
         clicksNumber: 1,
         isSelecting: true,
-        selectionStart: x,
-        selectionEnd: x,
       });
     } else if (this.state.clicksNumber === 1) {
       this.setState({
@@ -146,10 +143,10 @@ class MainPianoRoll extends PianoRoll {
   };
 
   handleCloseClick = () => {
+    this.setSelectionStart(0);
+    this.setSelectionEnd(0);
     this.setState({
       isSelecting: false,
-      selectionStart: 0,
-      selectionEnd: 0,
       clicksNumber: 0,
     });
   };
@@ -163,19 +160,16 @@ class MainPianoRoll extends PianoRoll {
 
   handleMouseMove = (event) => {
     const x = event.clientX - this.svgContainer.getBoundingClientRect().left;
-    if (this.state.isDraggingStartCoord) {
-      this.setSelectionStart(x);
-    } else if (this.state.isDraggingEndCoord) {
-      this.setSelectionEnd(x);
-    } else if (this.state.isDraggingSelection) {
+    if (this.state.isDraggingStartCoord) this.setSelectionStart(x);
+    else if (this.state.isDraggingEndCoord) this.setSelectionEnd(x);
+    else if (this.state.isDraggingSelection) {
       const selectionWidth =
         this.state.selectionEnd - this.state.selectionStart;
 
       let newStart = x - selectionWidth / 2;
 
-      if (newStart < 0) {
-        newStart = 0;
-      }
+      if (newStart < 0) newStart = 0;
+
       let newEnd = newStart + selectionWidth;
 
       if (newEnd > this.svgElement.width.animVal.value) {
@@ -188,34 +182,27 @@ class MainPianoRoll extends PianoRoll {
       this.verifyCoords();
     }
 
-    if (this.state.isSelecting) {
-      const x = event.clientX - this.svgContainer.getBoundingClientRect().left;
-      this.setState({
-        selectionEnd: x,
-      });
-    }
+    if (this.state.isSelecting) this.setSelectionEnd(x);
   };
 
   handleMouseUp = () => {
-    if (this.state.isDraggingStartCoord) {
+    if (this.state.isDraggingStartCoord)
       this.setState({
         isDraggingStartCoord: false,
         clicksNumber: 2,
       });
-    }
-    if (this.state.isDraggingEndCoord) {
+
+    if (this.state.isDraggingEndCoord)
       this.setState({
         isDraggingEndCoord: false,
         clicksNumber: 2,
       });
-    }
 
-    if (this.state.isDraggingSelection) {
+    if (this.state.isDraggingSelection)
       this.setState({
         isDraggingSelection: false,
         clicksNumber: 2,
       });
-    }
 
     this.verifyCoords();
   };

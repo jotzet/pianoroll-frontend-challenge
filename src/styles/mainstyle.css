@@ -64,7 +64,7 @@ img {
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid;
+  border: 1px solid black;
 }
 .piano-rolls-container {
   display: grid;
@@ -163,8 +163,9 @@ img {
 .selection-container .end-coord {
   left: var(--position, 0);
   top: 50%;
+  border-radius: 30%;
   transform: translateY(-50%);
-  width: 5px;
+  width: 7px;
   height: 50px;
   background-color: #944038;
 }

@@ -16,9 +16,8 @@ function AllRollsView() {
     async function loadData() {
       let partDataArray = [];
 
-      if (isDataInStorage()) {
-        partDataArray = getItemsFromData(21);
-      } else {
+      if (isDataInStorage()) partDataArray = getItemsFromData(21);
+      else {
         try {
           const response = await fetch("https://pianoroll.ai/random_notes");
           if (!response.ok) {
@@ -26,7 +25,8 @@ function AllRollsView() {
           }
           const responseData = await response.json();
           saveDataToFile(responseData);
-          partDataArray = getItemsFromData(20);
+          partDataArray = getItemsFromData(21);
+          window.location.reload();
         } catch (error) {
           console.error("Error loading data:", error);
         }
