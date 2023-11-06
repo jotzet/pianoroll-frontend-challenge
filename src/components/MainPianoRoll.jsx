@@ -20,14 +20,55 @@ class MainPianoRoll extends PianoRoll {
     this.handleResize = this.handleResize.bind(this);
   }
 
+  setSelectionStart(x) {
+    if (x < 0) {
+      this.setState({
+        selectionStart: 0,
+      });
+    } else if (x >= this.svgElement.width.animVal.value) {
+      this.setState({
+        selectionStart: this.svgElement.width.animVal.value - 1,
+      });
+    } else {
+      this.setState({
+        selectionStart: x,
+      });
+    }
+  }
+
+  setSelectionEnd(x) {
+    if (x < 0) {
+      this.setState({
+        selectionEnd: 1,
+      });
+    } else if (x >= this.svgElement.width.animVal.value) {
+      this.setState({
+        selectionEnd: this.svgElement.width.animVal.value,
+      });
+    } else {
+      this.setState({
+        selectionEnd: x,
+      });
+    }
+  }
+
+  verifyCoords() {
+    if (this.state.selectionStart > this.state.selectionEnd) {
+      this.setState({
+        selectionStart: this.state.selectionEnd,
+        selectionEnd: this.state.selectionStart,
+      });
+    }
+  }
+
   //the selection should properly adjust in case of an resize
   handleResize() {
     if (this.svgContainer) {
       const newSize = this.svgContainer.getBoundingClientRect().width;
       const scaleFactor = newSize / this.state.containerWidth;
+      this.setSelectionStart(this.state.selectionStart * scaleFactor);
+      this.setSelectionEnd(this.state.selectionEnd * scaleFactor);
       this.setState({
-        selectionStart: this.state.selectionStart * scaleFactor,
-        selectionEnd: this.state.selectionEnd * scaleFactor,
         containerWidth: newSize,
       });
     }
@@ -50,6 +91,7 @@ class MainPianoRoll extends PianoRoll {
         roundedStartDimension,
         roundedEndDimension
       );
+
       console.log(`the selected data: ${JSON.stringify(selectedData)}`);
       console.log(`number of notes: ${selectedData.length}`);
     }
@@ -120,27 +162,20 @@ class MainPianoRoll extends PianoRoll {
   };
 
   handleMouseMove = (event) => {
+    const x = event.clientX - this.svgContainer.getBoundingClientRect().left;
     if (this.state.isDraggingStartCoord) {
-      let x = event.clientX - this.svgContainer.getBoundingClientRect().left;
-      if (x < 0) {
-        x = 0;
-      }
-      this.setState({ selectionStart: x });
+      this.setSelectionStart(x);
     } else if (this.state.isDraggingEndCoord) {
-      let x = event.clientX - this.svgContainer.getBoundingClientRect().left;
-      if (x > this.svgElement.width.animVal.value) {
-        x = this.svgElement.width.animVal.value;
-      }
-      this.setState({ selectionEnd: x });
+      this.setSelectionEnd(x);
     } else if (this.state.isDraggingSelection) {
-      const x = event.clientX - this.svgContainer.getBoundingClientRect().left;
       const selectionWidth =
         this.state.selectionEnd - this.state.selectionStart;
+
       let newStart = x - selectionWidth / 2;
+
       if (newStart < 0) {
         newStart = 0;
       }
-
       let newEnd = newStart + selectionWidth;
 
       if (newEnd > this.svgElement.width.animVal.value) {
@@ -148,10 +183,9 @@ class MainPianoRoll extends PianoRoll {
         newStart = newEnd - selectionWidth;
       }
 
-      this.setState({
-        selectionStart: Math.min(newStart, newEnd),
-        selectionEnd: Math.max(newStart, newEnd),
-      });
+      this.setSelectionStart(newStart);
+      this.setSelectionEnd(newEnd);
+      this.verifyCoords();
     }
 
     if (this.state.isSelecting) {
@@ -163,31 +197,6 @@ class MainPianoRoll extends PianoRoll {
   };
 
   handleMouseUp = () => {
-    if (this.state.isSelecting) {
-      // start coords should always be before the end coords
-      let newSelectionStart = Math.min(
-        this.state.selectionStart,
-        this.state.selectionEnd
-      );
-      let newSelectionEnd = Math.max(
-        this.state.selectionStart,
-        this.state.selectionEnd
-      );
-
-      if (newSelectionStart < 0) {
-        newSelectionStart = 0;
-      }
-
-      if (newSelectionEnd > this.svgElement.width.animVal.value) {
-        newSelectionEnd = this.svgElement.width.animVal.value;
-      }
-
-      this.setState({
-        selectionStart: newSelectionStart,
-        selectionEnd: newSelectionEnd,
-      });
-    }
-
     if (this.state.isDraggingStartCoord) {
       this.setState({
         isDraggingStartCoord: false,
@@ -207,6 +216,8 @@ class MainPianoRoll extends PianoRoll {
         clicksNumber: 2,
       });
     }
+
+    this.verifyCoords();
   };
 
   render() {
