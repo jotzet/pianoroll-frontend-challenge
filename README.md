@@ -1,6 +1,6 @@
 # Piano Roll Frontend Challenge
 ## Video demo
-To see the demo of my solution use this link:
+To see the screencast of my solution use this link:
 [youtu.be/ieaIWmCoLdE](https://youtu.be/ieaIWmCoLdE)
 ## Installation and Usage
 
