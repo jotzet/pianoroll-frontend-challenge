@@ -1,8 +1,11 @@
 # Piano Roll Frontend Challenge
-
+## Video demo
+To see the demo of my solution use this link:
+[youtu.be/ieaIWmCoLdE](https://youtu.be/ieaIWmCoLdE)
 ## Installation and Usage
 
 The project is deployed on this website:
+
 [pianorollfrontendchallenge.netlify.app](https://pianorollfrontendchallenge.netlify.app/)
 
 If you prefer to run it locally, clone this repository, go to the project directory, open it in a terminal and run:
